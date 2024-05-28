@@ -34,8 +34,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications)
                 .build();
@@ -50,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
-                intentIntegrator.setOrientationLocked(true);
+                intentIntegrator.setOrientationLocked(true); // Allow orientation changes
                 intentIntegrator.setPrompt("Scan a barcode");
-                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);//Qr code???
+                intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
                 intentIntegrator.initiateScan();
             }
         });
@@ -61,10 +59,27 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if(intentResult != null){
+        if (intentResult != null) {
             String contents = intentResult.getContents();
-            if (contents != null){
-                textView.setText(intentResult.getContents());
+            if (contents != null) {
+                String barcode = contents;
+                textView.setText(barcode); // Display the scanned barcode
+                String url = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
+                new FetchData(MainActivity.this,textView).execute(url);
+//                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+//                builder.setTitle("result");
+//                builder.setMessage(contents);
+//                builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//                    }
+//                }).show();//it shows a small popup with barcode
+                textView.setText(contents);
+//                  String url = "https://world.openfoodfacts.org/product/" + contents;
+//                  new FetchData(textView).execute(url);
+            } else {
+                textView.setText("No barcode detected, please try again.");
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data);
