@@ -11,6 +11,8 @@ lifecycleViewmodelKtx = "2.6.1"
 navigationFragment = "2.6.0"
 navigationUi = "2.6.0"
 zxing = "4.1.0"
+zxing-android = "2.3.0"
+glide = "4.13.0"
 
 
 [libraries]
@@ -25,7 +27,15 @@ lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-view
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
 navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 zxing-android-embedded = { module = "com.journeyapps:zxing-android-embedded", version.ref = "zxing" }
+zxing-core = { module = "com.google.zxing:core", version.ref = "zxing" }
+zxing-android-legacy = { module = "com.journeyapps:zxing-android-legacy", version.ref = "zxing-android" }
+zxing-android-integration = { module = "com.journeyapps:zxing-android-integration", version.ref = "zxing-android" }
 
+
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 
+[bundles]
+zxing-all = ["zxing-core", "zxing-android-embedded", "zxing-android-legacy", "zxing-android-integration"]

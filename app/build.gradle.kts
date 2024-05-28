@@ -48,4 +48,7 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation(libs.zxing.android.embedded)
 
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
+
 }
