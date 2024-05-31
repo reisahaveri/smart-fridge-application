@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     TextView no_data;
 
     MyDatabaseHelper myDB;
-    ArrayList<String> book_id, book_title, book_author, book_pages;
+    ArrayList<String> product_id, product_title, product_brand, expDate;
     CustomAdapter customAdapter;
 
     @Override
@@ -81,15 +81,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         myDB = new MyDatabaseHelper(MainActivity.this);
-        book_id = new ArrayList<>();
-        book_title = new ArrayList<>();
-        book_author = new ArrayList<>();
-        book_pages = new ArrayList<>();
+        product_id = new ArrayList<>();
+        product_title = new ArrayList<>();
+        product_brand = new ArrayList<>();
+        expDate = new ArrayList<>();
 
         storeDataInArrays();
         dialog.show();
-        customAdapter = new CustomAdapter(MainActivity.this,this, book_id, book_title, book_author,
-                book_pages);
+        customAdapter = new CustomAdapter(MainActivity.this,this, product_id, product_title,product_brand,
+                expDate);
         recyclerView.setAdapter(customAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
         customAdapter.notifyDataSetChanged();
@@ -114,10 +114,10 @@ public class MainActivity extends AppCompatActivity {
             no_data.setVisibility(View.VISIBLE);
         }else{
             while (cursor.moveToNext()){
-                book_id.add(cursor.getString(0));
-                book_title.add(cursor.getString(1));
-                book_author.add(cursor.getString(2));
-                book_pages.add(cursor.getString(3));
+                product_id.add(cursor.getString(0));
+                product_title.add(cursor.getString(1));
+                product_brand.add(cursor.getString(2));
+                expDate.add(cursor.getString(3));
             }
             empty_imageview.setVisibility(View.GONE);
             no_data.setVisibility(View.GONE);

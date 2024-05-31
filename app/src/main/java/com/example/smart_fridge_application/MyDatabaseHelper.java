@@ -32,7 +32,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TITLE + " TEXT, " +
                 COLUMN_AUTHOR + " TEXT, " +
-                COLUMN_PAGES + " INTEGER);";
+                COLUMN_PAGES + " DATE);";
         db.execSQL(query);
     }
     @Override

@@ -14,10 +14,10 @@ import android.widget.Toast;
 
 public class UpdateActivity extends AppCompatActivity {
 
-    EditText title_input, author_input, pages_input;
+    EditText title_input, brand_input,expDate_input;
     Button update_button, delete_button;
 
-    String id, title, author, pages;
+    String id, title, brand,expDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +25,8 @@ public class UpdateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_update);
 
         title_input = findViewById(R.id.title_input2);
-        author_input = findViewById(R.id.author_input2);
-        pages_input = findViewById(R.id.pages_input2);
+        brand_input = findViewById(R.id.brand_input2);
+        expDate_input = findViewById(R.id.expDate_input2);
         update_button = findViewById(R.id.update_button);
         delete_button = findViewById(R.id.delete_button);
 
@@ -45,9 +45,9 @@ public class UpdateActivity extends AppCompatActivity {
                 //And only then we call this
                 MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
                 title = title_input.getText().toString().trim();
-                author = author_input.getText().toString().trim();
-                pages = pages_input.getText().toString().trim();
-                myDB.updateData(id, title, author, pages);
+                brand = brand_input.getText().toString().trim();
+                expDate =expDate_input.getText().toString().trim();
+                myDB.updateData(id, title, brand, expDate);
             }
         });
         delete_button.setOnClickListener(new View.OnClickListener() {
@@ -61,18 +61,18 @@ public class UpdateActivity extends AppCompatActivity {
 
     void getAndSetIntentData(){
         if(getIntent().hasExtra("id") && getIntent().hasExtra("title") &&
-                getIntent().hasExtra("author") && getIntent().hasExtra("pages")){
+                getIntent().hasExtra("brand") && getIntent().hasExtra("expDate")){
             //Getting Data from Intent
             id = getIntent().getStringExtra("id");
             title = getIntent().getStringExtra("title");
-            author = getIntent().getStringExtra("author");
-            pages = getIntent().getStringExtra("pages");
+            brand = getIntent().getStringExtra("brand");
+            expDate = getIntent().getStringExtra("expDate");
 
             //Setting Intent Data
             title_input.setText(title);
-            author_input.setText(author);
-            pages_input.setText(pages);
-            Log.d("stev", title+" "+author+" "+pages);
+            brand_input.setText(brand);
+            expDate_input.setText(expDate);
+            Log.d("stev", title+" "+brand+" "+expDate);
         }else{
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
         }

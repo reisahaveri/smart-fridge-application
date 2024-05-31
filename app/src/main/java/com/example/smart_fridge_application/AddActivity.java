@@ -12,7 +12,7 @@ public class AddActivity extends AppCompatActivity {
 
     ImageView uploadImage;
 
-    EditText title_input, author_input, pages_input;
+    EditText title_input, brand_input, expDate_input;
     Button add_button;
 
     @Override
@@ -21,8 +21,8 @@ public class AddActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add);
         uploadImage = findViewById(R.id.uploadImage);
         title_input = findViewById(R.id.title_input);
-        author_input = findViewById(R.id.author_input);
-        pages_input = findViewById(R.id.pages_input);
+        brand_input = findViewById(R.id.brand_input);
+        expDate_input = findViewById(R.id.expDate_input);
         add_button = findViewById(R.id.add_button);
 
 
@@ -31,8 +31,8 @@ public class AddActivity extends AppCompatActivity {
             public void onClick(View view) {
                 MyDatabaseHelper myDB = new MyDatabaseHelper(AddActivity.this);
                 myDB.addProduct(    title_input.getText().toString().trim(),
-                        author_input.getText().toString().trim(),
-                        Integer.valueOf(pages_input.getText().toString().trim()));
+                        brand_input.getText().toString().trim(),
+                        Integer.valueOf(expDate_input.getText().toString().trim()));
             }
         });
     }
