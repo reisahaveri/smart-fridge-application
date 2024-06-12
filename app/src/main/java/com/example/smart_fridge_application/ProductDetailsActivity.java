@@ -12,7 +12,7 @@ public class ProductDetailsActivity extends Activity {
         setContentView(R.layout.activity_product_details);
 
         String details = getIntent().getStringExtra("product_details");
-        Log.d("ProductDetails", "Received details: " + details); // Check the log output
+        Log.d("ProductDetails", "Received details: " + details);
 
         TextView textView = findViewById(R.id.details_text_view);
         if (details != null) {

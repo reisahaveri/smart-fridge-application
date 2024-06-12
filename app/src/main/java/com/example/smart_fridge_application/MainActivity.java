@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 IntentIntegrator intentIntegrator = new IntentIntegrator(MainActivity.this);
-                intentIntegrator.setOrientationLocked(true); // Allow orientation changes
+                intentIntegrator.setOrientationLocked(true);
                 intentIntegrator.setPrompt("Scan a barcode");
                 intentIntegrator.setDesiredBarcodeFormats(IntentIntegrator.ALL_CODE_TYPES);
                 intentIntegrator.initiateScan();
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
             String contents = intentResult.getContents();
             if (contents != null) {
                 String barcode = contents;
-                textView.setText(barcode); // Display the scanned barcode
+                textView.setText(barcode);
                 String url = "https://world.openfoodfacts.org/api/v0/product/" + barcode + ".json";
                 new FetchData(MainActivity.this,textView).execute(url);
 //                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
