@@ -14,10 +14,11 @@ import android.widget.Toast;
 
 public class UpdateActivity extends AppCompatActivity {
 
-    EditText title_input, brand_input,expDate_input;
+    EditText title_input, brand_input, expDate_input;
     Button update_button, delete_button;
 
-    String id, title, brand,expDate;
+    String id, title, brand;
+    long expDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +31,10 @@ public class UpdateActivity extends AppCompatActivity {
         update_button = findViewById(R.id.update_button);
         delete_button = findViewById(R.id.delete_button);
 
-        //First we call this
+        // First we call this
         getAndSetIntentData();
 
-        //Set actionbar title after getAndSetIntentData method
+        // Set actionbar title after getAndSetIntentData method
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setTitle(title);
@@ -42,43 +43,48 @@ public class UpdateActivity extends AppCompatActivity {
         update_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //And only then we call this
+                // And only then we call this
                 MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
                 title = title_input.getText().toString().trim();
                 brand = brand_input.getText().toString().trim();
-                expDate =expDate_input.getText().toString().trim();
+                try {
+                    expDate = Long.parseLong(expDate_input.getText().toString().trim());
+                } catch (NumberFormatException e) {
+                    Toast.makeText(UpdateActivity.this, "Expiration date must be a number", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 myDB.updateData(id, title, brand, expDate);
             }
         });
+
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 confirmDialog();
             }
         });
-
     }
 
-    void getAndSetIntentData(){
-        if(getIntent().hasExtra("id") && getIntent().hasExtra("title") &&
-                getIntent().hasExtra("brand") && getIntent().hasExtra("expDate")){
-            //Getting Data from Intent
+    void getAndSetIntentData() {
+        if (getIntent().hasExtra("id") && getIntent().hasExtra("title") &&
+                getIntent().hasExtra("brand") && getIntent().hasExtra("expDate")) {
+            // Getting Data from Intent
             id = getIntent().getStringExtra("id");
             title = getIntent().getStringExtra("title");
             brand = getIntent().getStringExtra("brand");
-            expDate = getIntent().getStringExtra("expDate");
+            expDate = getIntent().getLongExtra("expDate", 0);
 
-            //Setting Intent Data
+            // Setting Intent Data
             title_input.setText(title);
             brand_input.setText(brand);
-            expDate_input.setText(expDate);
-            Log.d("stev", title+" "+brand+" "+expDate);
-        }else{
+            expDate_input.setText(String.valueOf(expDate));
+            Log.d("stev", title + " " + brand + " " + expDate);
+        } else {
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    void confirmDialog(){
+    void confirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete " + title + " ?");
         builder.setMessage("Are you sure you want to delete " + title + " ?");
@@ -94,7 +100,7 @@ public class UpdateActivity extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
+                // Do nothing
             }
         });
         builder.create().show();

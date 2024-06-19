@@ -1,96 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".AddActivity">
+    tools:context=".AddActivity"
+    android:padding="16dp">
 
-    <androidx.cardview.widget.CardView
+    <ImageView
+        android:id="@+id/uploadImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/uploadimg" />
+
+    <EditText
+        android:id="@+id/title_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="20dp"
-        app:cardCornerRadius="30dp"
-        app:cardElevation="20dp">
+        android:layout_below="@id/uploadImage"
+        android:layout_marginTop="20dp"
+        android:hint="Product Title"
+        android:inputType="text" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/lavender_border">
+    <EditText
+        android:id="@+id/brand_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_input"
+        android:layout_marginTop="20dp"
+        android:hint="Brand"
+        android:inputType="text" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Upload Product"
-                android:textSize="30sp"
-                android:textAlignment="center"
-                android:textColor="@color/lavender"/>
+    <TextView
+        android:id="@+id/expDate_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/brand_input"
+        android:layout_marginTop="20dp"
+        android:hint="Expiration Date"
+        android:text="Select Expiration Date"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@android:drawable/edit_text" />
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/uploadimg"
-                android:id="@+id/uploadImage"
-                android:layout_marginTop="10dp"
-                android:scaleType="fitXY"/>
+    <Button
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/expDate_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Add Product" />
 
-
-            <EditText
-                android:id="@+id/title_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:ems="10"
-                android:hint="Product Name"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/brand_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:ems="10"
-                android:hint="Product Brand"
-                android:inputType="textPersonName"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_input" />
-
-            <EditText
-                android:id="@+id/expDate_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:ems="10"
-                android:hint="Expiring date"
-                android:inputType="number"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/brand_input" />
-
-            <Button
-                android:id="@+id/add_button"
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_marginTop="40dp"
-                android:text="Add"
-                android:textSize="20sp"
-                android:textAllCaps="false"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/axpDate_input" />
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</ScrollView>
+</RelativeLayout>

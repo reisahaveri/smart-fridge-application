@@ -32,27 +32,29 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
                 " (" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_TITLE + " TEXT, " +
                 COLUMN_AUTHOR + " TEXT, " +
-                COLUMN_PAGES + " DATE);";
+                COLUMN_PAGES + " INTEGER);";
         db.execSQL(query);
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
-    void addProduct(String name, String brand, int expired_date){
+    void addProduct(String name, String brand, long expired_date){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_TITLE, name);
         cv.put(COLUMN_AUTHOR, brand);
         cv.put(COLUMN_PAGES, expired_date);
-        long result = db.insert(TABLE_NAME,null, cv);
+        long result = db.insert(TABLE_NAME, null, cv);
         if(result == -1){
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(context, "Added Successfully!", Toast.LENGTH_SHORT).show();
+            Log.d("DB_INSERT", "Inserted: " + name + ", " + brand + ", " + expired_date);
         }
     }
 
@@ -63,24 +65,24 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         Cursor cursor = null;
         if(db != null){
             cursor = db.rawQuery(query, null);
+            Log.d("DB_READ", "Data read: " + cursor.getCount() + " rows.");
         }
         return cursor;
     }
 
-    void updateData(String row_id, String name, String brand, String date){
+    void updateData(String row_id, String name, String brand, long date){ // Changed to long
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TITLE, name);
         cv.put(COLUMN_AUTHOR, brand);
-        cv.put(COLUMN_PAGES, date);
+        cv.put(COLUMN_PAGES, date); // Updated as long
 
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
         if(result == -1){
             Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             Toast.makeText(context, "Updated Successfully!", Toast.LENGTH_SHORT).show();
         }
-
     }
 
     void deleteOneRow(String row_id){
@@ -88,7 +90,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         long result = db.delete(TABLE_NAME, "_id=?", new String[]{row_id});
         if(result == -1){
             Toast.makeText(context, "Failed to Delete.", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Toast.makeText(context, "Successfully Deleted.", Toast.LENGTH_SHORT).show();
         }
     }
@@ -97,5 +99,4 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("DELETE FROM " + TABLE_NAME);
     }
-
 }
