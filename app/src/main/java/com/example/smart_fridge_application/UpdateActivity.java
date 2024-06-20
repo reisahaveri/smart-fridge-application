@@ -48,7 +48,10 @@ public class UpdateActivity extends AppCompatActivity {
                 brand = brand_input.getText().toString().trim();
                 expDate =expDate_input.getText().toString().trim();
                 myDB.updateData(id, title, brand, expDate);
+                confirmDialogUpdate();
+
             }
+
         });
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +81,47 @@ public class UpdateActivity extends AppCompatActivity {
         }
     }
 
+
+
+    void confirmDialogUpdate(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Update " + title + " ?");
+        builder.setMessage("Are you sure you want to update " + title + " ?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
+                        myDB.updateData(id,title,brand,expDate);
+                        finish();
+                    }
+                }
+        );
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+
+
+
+            }
+        });
+        builder.create().show();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     void confirmDialog(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete " + title + " ?");
@@ -94,6 +138,9 @@ public class UpdateActivity extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                finish();
+
+
 
             }
         });
