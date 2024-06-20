@@ -38,13 +38,14 @@
         app:layout_constraintTop_toBottomOf="@id/title_input2" />
 
     <LinearLayout
+        android:id="@+id/expiration_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/brand_input2"
-        android:orientation="horizontal">
+        app:layout_constraintTop_toBottomOf="@id/brand_input2">
 
         <TextView
             android:id="@+id/expDate_input2"
@@ -60,10 +61,12 @@
             android:id="@+id/calendar_button2"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
             android:src="@drawable/ic_calendar"
             android:contentDescription="Select Date"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp"/>
+            android:background="?attr/selectableItemBackgroundBorderless"/>
+
     </LinearLayout>
 
     <Button
@@ -72,10 +75,10 @@
         android:layout_height="70dp"
         android:layout_marginTop="16dp"
         android:text="Update Product"
-        android:textSize="20sp"
         android:textAllCaps="false"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/expDate_input2" />
+        app:layout_constraintTop_toBottomOf="@id/expiration_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -21,5 +21,4 @@ public class ProductDetailsActivity extends Activity {
             textView.setText("No details available.");
         }
     }
-
 }

@@ -31,13 +31,8 @@ public class BarcodeScanActivity extends AppCompatActivity {
         if (intentResult != null) {
             String contents = intentResult.getContents();
             if (contents != null) {
-                // Handle the scanned barcode
-                // Possibly start a new activity or fetch product info
-                // Example:
                 Toast.makeText(this, "Scanned: " + contents, Toast.LENGTH_LONG).show();
-                // You can send the result back to MainActivity or handle it here
-                // For now, we'll just finish the activity
-                finish();
+                new FetchData(this).execute("https://world.openfoodfacts.org/api/v0/product/" + contents + ".json");
             } else {
                 Toast.makeText(this, "No barcode detected, please try again.", Toast.LENGTH_LONG).show();
                 finish();

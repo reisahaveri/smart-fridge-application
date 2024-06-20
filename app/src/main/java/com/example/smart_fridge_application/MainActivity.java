@@ -19,12 +19,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
-    FloatingActionButton add_button;
+    FloatingActionButton add_button, scan_button;
     ImageView empty_imageview;
     TextView no_data;
     MyDatabaseHelper myDB;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.recyclerView);
         add_button = findViewById(R.id.add_button);
+        scan_button = findViewById(R.id.scan_button);
         empty_imageview = findViewById(R.id.empty_imageview);
         no_data = findViewById(R.id.no_data);
 
@@ -45,6 +47,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        scan_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, BarcodeScanActivity.class);
                 startActivity(intent);
             }
         });
@@ -78,10 +88,6 @@ public class MainActivity extends AppCompatActivity {
             empty_imageview.setVisibility(View.VISIBLE);
             no_data.setVisibility(View.VISIBLE);
         } else {
-            product_id.clear();
-            product_title.clear();
-            product_brand.clear();
-            expDate.clear();
             while (cursor.moveToNext()) {
                 product_id.add(cursor.getString(0));
                 product_title.add(cursor.getString(1));
@@ -110,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     void confirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete All");
+        builder.setTitle("Delete All?");
         builder.setMessage("Are you sure you want to delete all Data?");
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
