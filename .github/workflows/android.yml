@@ -2,17 +2,17 @@ name: Android CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ '*' ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ '*' ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-
     - name: Set up JDK 17
       uses: actions/setup-java@v3
       with:
@@ -20,33 +20,11 @@ jobs:
         distribution: 'temurin'
         cache: gradle
 
-    - name: Set up Android SDK
-      uses: android-actions/setup-android@v2
-      with:
-        api-level: 31
-        build-tools: 31.0.0
-        ndk: 21.4.7075529
-
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
 
-    - name: Override org.gradle.java.home if set
-      run: |
-        if grep -q "org.gradle.java.home" gradle.properties; then
-          sed -i '/org.gradle.java.home/d' gradle.properties
-        fi
+    - name: Set JAVA_HOME
+      run: echo "JAVA_HOME=/usr/lib/jvm/temurin-17-jdk-amd64" >> $GITHUB_ENV
 
     - name: Build with Gradle
       run: ./gradlew build
-
-    - name: Print environment variables
-      run: printenv
-
-    - name: Print Java version
-      run: java -version
-
-    - name: Print JAVA_HOME
-      run: echo $JAVA_HOME
-
-    - name: Print Gradle properties
-      run: cat gradle.properties
