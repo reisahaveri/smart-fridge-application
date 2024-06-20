@@ -3,7 +3,10 @@ package com.example.smart_fridge_application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
+
 import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,6 +15,8 @@ import java.net.URL;
 
 public class FetchData extends AsyncTask<String, Void, String> {
     private Context context;
+    private static final String TAG = "FetchData";
+    private String imageUrl = "";
 
     public FetchData(Context context) {
         this.context = context;
@@ -30,12 +35,21 @@ public class FetchData extends AsyncTask<String, Void, String> {
                 result.append(line);
             }
 
+            // Print the raw JSON response
+            Log.d(TAG, "JSON Response: " + result.toString());
+
+            // Parse the JSON response
             JSONObject jsonObject = new JSONObject(result.toString());
-            JSONObject product = jsonObject.getJSONObject("product");
-            String name = product.getString("product_name");
-            String quantity = product.getString("quantity");
-            String brand = product.getString("brands");
-            return "Name: " + name + "\nBrand: " + brand + "\nQuantity: " + quantity;
+            if (jsonObject.has("product")) {
+                JSONObject product = jsonObject.getJSONObject("product");
+                String name = product.optString("product_name", "N/A");
+                String quantity = product.optString("quantity", "N/A");
+                String brand = product.optString("brands", "N/A");
+                imageUrl = product.optString("image_url", ""); // Adjust the key as per the JSON response
+                return "Name: " + name + "\nBrand: " + brand + "\nQuantity: " + quantity;
+            } else {
+                return "No product data found for the given barcode.";
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return "Failed to fetch data: " + e.getMessage();
@@ -46,11 +60,11 @@ public class FetchData extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         Intent intent = new Intent(context, ProductDetailsActivity.class);
         intent.putExtra("product_details", result);
+        intent.putExtra("image_url", imageUrl); // Pass the image URL to the next activity
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
         if (context instanceof BarcodeScanActivity) {
             ((BarcodeScanActivity) context).finish();
         }
     }
-
 }
