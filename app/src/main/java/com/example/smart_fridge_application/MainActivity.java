@@ -12,9 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView empty_imageview;
     TextView no_data;
     MyDatabaseHelper myDB;
-    ArrayList<String> product_id, product_title, product_brand, expDate, product_image;
+    ArrayList<String> product_id, product_title, product_brand, expDate;
     CustomAdapter customAdapter;
 
     @Override
@@ -53,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AddActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1); // Use startActivityForResult to get a result back
             }
         });
 
@@ -91,13 +88,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1) {
-            recreate();
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            storeDataInArrays();  // Refresh the data
+            customAdapter.notifyDataSetChanged();  // Notify the adapter
         }
     }
 
     void storeDataInArrays() {
         Cursor cursor = myDB.readAllData();
+        product_id.clear();
+        product_title.clear();
+        product_brand.clear();
+        expDate.clear();
         if (cursor.getCount() == 0) {
             empty_imageview.setVisibility(View.VISIBLE);
             no_data.setVisibility(View.VISIBLE);
@@ -113,21 +115,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.my_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.delete_all) {
-            confirmDialog();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     void confirmDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Delete All?");
@@ -137,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 MyDatabaseHelper myDB = new MyDatabaseHelper(MainActivity.this);
                 myDB.deleteAllData();
+                // Refresh Activity
                 Intent intent = new Intent(MainActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -145,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                //
+                // Do nothing
             }
         });
         builder.create().show();

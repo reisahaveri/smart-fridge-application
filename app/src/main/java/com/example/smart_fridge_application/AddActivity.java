@@ -3,6 +3,7 @@ package com.example.smart_fridge_application;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -56,6 +57,10 @@ public class AddActivity extends AppCompatActivity {
                 String brand = brand_input.getText().toString().trim();
                 long expDate = calendar.getTimeInMillis();
                 myDB.addProduct(title, brand, expDate);
+
+                // Set result and finish the activity
+                Intent resultIntent = new Intent();
+                setResult(RESULT_OK, resultIntent);
                 finish();
             }
         });

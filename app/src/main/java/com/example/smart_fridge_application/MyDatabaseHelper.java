@@ -103,7 +103,7 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM " + TABLE_NAME);
     }
 
-    // Add this method to get the list of expiring products
+    // Get the list of expiring products
     List<Product> getExpiringProducts() {
         List<Product> products = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
