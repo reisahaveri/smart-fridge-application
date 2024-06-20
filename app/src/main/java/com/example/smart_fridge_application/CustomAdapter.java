@@ -1,6 +1,7 @@
 package com.example.smart_fridge_application;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +9,18 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
 
     private Context context;
     private ArrayList<String> product_id, product_title, product_brand, expDate;
     private MyDatabaseHelper myDB;
+    private SimpleDateFormat sdf;
 
     CustomAdapter(Context context, ArrayList<String> product_id, ArrayList<String> product_title, ArrayList<String> product_brand, ArrayList<String> expDate) {
         this.context = context;
@@ -24,6 +29,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         this.product_brand = product_brand;
         this.expDate = expDate;
         myDB = new MyDatabaseHelper(context);
+        sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
     }
 
     @NonNull
@@ -36,10 +42,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.product_id_txt.setText(product_id.get(position));
         holder.product_title_txt.setText(product_title.get(position));
         holder.product_brand_txt.setText(product_brand.get(position));
-        holder.product_expDate_txt.setText(expDate.get(position));
+        holder.product_expDate_txt.setText(sdf.format(Long.parseLong(expDate.get(position))));
 
         holder.update_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,13 +61,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDB.deleteOneRow(product_id.get(position));
-                product_id.remove(position);
-                product_title.remove(position);
-                product_brand.remove(position);
-                expDate.remove(position);
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, product_id.size());
+                confirmDeleteDialog(position);
             }
         });
     }
@@ -72,13 +71,37 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return product_id.size();
     }
 
+    private void confirmDeleteDialog(int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Delete " + product_title.get(position));
+        builder.setMessage("Are you sure you want to delete " + product_title.get(position) + " ?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                myDB.deleteOneRow(product_id.get(position));
+                product_id.remove(position);
+                product_title.remove(position);
+                product_brand.remove(position);
+                expDate.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, product_id.size());
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                // Do nothing
+            }
+        });
+        builder.create().show();
+    }
+
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView product_id_txt, product_title_txt, product_brand_txt, product_expDate_txt;
+        TextView product_title_txt, product_brand_txt, product_expDate_txt;
         ImageButton update_button, delete_button;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            product_id_txt = itemView.findViewById(R.id.product_id_txt);
             product_title_txt = itemView.findViewById(R.id.product_title_txt);
             product_brand_txt = itemView.findViewById(R.id.product_brand_txt);
             product_expDate_txt = itemView.findViewById(R.id.product_expDate_txt);

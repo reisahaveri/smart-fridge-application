@@ -70,12 +70,12 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    void updateData(String row_id, String name, String brand, long date){ // Changed to long
+    void updateData(String row_id, String name, String brand, long date){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TITLE, name);
         cv.put(COLUMN_AUTHOR, brand);
-        cv.put(COLUMN_PAGES, date); // Updated as long
+        cv.put(COLUMN_PAGES, date);
 
         long result = db.update(TABLE_NAME, cv, "_id=?", new String[]{row_id});
         if(result == -1){

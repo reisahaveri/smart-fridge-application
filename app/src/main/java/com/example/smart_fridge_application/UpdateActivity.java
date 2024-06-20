@@ -1,24 +1,35 @@
 package com.example.smart_fridge_application;
 
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class UpdateActivity extends AppCompatActivity {
 
-    EditText title_input, brand_input, expDate_input;
-    Button update_button, delete_button;
+    EditText title_input, brand_input;
+    TextView expDate_input;
+    ImageButton calendar_button2;
+    Button update_button;
 
     String id, title, brand;
     long expDate;
+    Calendar calendar;
+    SimpleDateFormat sdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +39,11 @@ public class UpdateActivity extends AppCompatActivity {
         title_input = findViewById(R.id.title_input2);
         brand_input = findViewById(R.id.brand_input2);
         expDate_input = findViewById(R.id.expDate_input2);
+        calendar_button2 = findViewById(R.id.calendar_button2);
         update_button = findViewById(R.id.update_button);
-        delete_button = findViewById(R.id.delete_button);
+
+        sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        calendar = Calendar.getInstance();
 
         // First we call this
         getAndSetIntentData();
@@ -40,27 +54,28 @@ public class UpdateActivity extends AppCompatActivity {
             ab.setTitle(title);
         }
 
-        update_button.setOnClickListener(new View.OnClickListener() {
+        calendar_button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // And only then we call this
-                MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
-                title = title_input.getText().toString().trim();
-                brand = brand_input.getText().toString().trim();
-                try {
-                    expDate = Long.parseLong(expDate_input.getText().toString().trim());
-                } catch (NumberFormatException e) {
-                    Toast.makeText(UpdateActivity.this, "Expiration date must be a number", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                myDB.updateData(id, title, brand, expDate);
+                new DatePickerDialog(UpdateActivity.this, date, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
-        delete_button.setOnClickListener(new View.OnClickListener() {
+        update_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                confirmDialog();
+                MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
+                title = title_input.getText().toString().trim();
+                brand = brand_input.getText().toString().trim();
+                myDB.updateData(id, title, brand, expDate);
+
+                // Redirect to MainActivity after updating
+                Intent intent = new Intent(UpdateActivity.this, MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish();
             }
         });
     }
@@ -72,37 +87,39 @@ public class UpdateActivity extends AppCompatActivity {
             id = getIntent().getStringExtra("id");
             title = getIntent().getStringExtra("title");
             brand = getIntent().getStringExtra("brand");
-            expDate = getIntent().getLongExtra("expDate", 0);
+            String expDateString = getIntent().getStringExtra("expDate");
+
+            // Convert the expiration date string to long
+            try {
+                expDate = Long.parseLong(expDateString);
+                calendar.setTimeInMillis(expDate); // Set calendar time to expDate
+                expDate_input.setText(sdf.format(calendar.getTime())); // Format and set the expiration date
+            } catch (NumberFormatException e) {
+                Log.e("UpdateActivity", "Invalid date format", e);
+            }
 
             // Setting Intent Data
             title_input.setText(title);
             brand_input.setText(brand);
-            expDate_input.setText(String.valueOf(expDate));
-            Log.d("stev", title + " " + brand + " " + expDate);
+            Log.d("UpdateActivity", title + " " + brand + " " + expDate);
         } else {
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    void confirmDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Delete " + title + " ?");
-        builder.setMessage("Are you sure you want to delete " + title + " ?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
-                        myDB.deleteOneRow(id);
-                        finish();
-                    }
-                }
-        );
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Do nothing
-            }
-        });
-        builder.create().show();
+    DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                              int dayOfMonth) {
+            calendar.set(Calendar.YEAR, year);
+            calendar.set(Calendar.MONTH, monthOfYear);
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            updateLabel();
+        }
+    };
+
+    private void updateLabel() {
+        expDate_input.setText(sdf.format(calendar.getTime()));
+        expDate = calendar.getTimeInMillis();
     }
 }

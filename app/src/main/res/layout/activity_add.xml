@@ -1,56 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AddActivity"
-    android:padding="16dp">
-
-    <ImageView
-        android:id="@+id/uploadImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:src="@drawable/uploadimg" />
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp">
 
     <EditText
         android:id="@+id/title_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/uploadImage"
-        android:layout_marginTop="20dp"
-        android:hint="Product Title"
-        android:inputType="text" />
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:hint="Product Name"
+        android:inputType="textPersonName"
+        android:textSize="18sp"
+        android:textColor="#000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/brand_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/title_input"
-        android:layout_marginTop="20dp"
-        android:hint="Brand"
-        android:inputType="text" />
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:hint="Product Brand"
+        android:inputType="textPersonName"
+        android:textSize="18sp"
+        android:textColor="#000"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_input" />
 
-    <TextView
-        android:id="@+id/expDate_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/brand_input"
-        android:layout_marginTop="20dp"
-        android:hint="Expiration Date"
-        android:text="Select Expiration Date"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@android:drawable/edit_text" />
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/brand_input">
+
+        <TextView
+            android:id="@+id/expDate_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Expiration Date"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:padding="10dp"/>
+
+        <ImageButton
+            android:id="@+id/calendar_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_calendar"
+            android:contentDescription="Select Date"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/add_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/expDate_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Add Product" />
-
-</RelativeLayout>
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="16dp"
+        android:text="Add Product"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        app:layout_constraintTop_toBottomOf="@id/calendar_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
