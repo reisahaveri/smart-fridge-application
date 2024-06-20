@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,11 +25,11 @@ import java.util.Locale;
 public class UpdateActivity extends AppCompatActivity {
 
     EditText title_input, brand_input;
-    TextView expDate_input;
+    TextView expDate_input, warning_text_view;
     ImageButton calendar_button2;
     Button update_button;
 
-    String id, title, brand;
+    String id, title, brand, imageUrl;
     long expDate;
     Calendar calendar;
     SimpleDateFormat sdf;
@@ -39,6 +42,7 @@ public class UpdateActivity extends AppCompatActivity {
         title_input = findViewById(R.id.title_input2);
         brand_input = findViewById(R.id.brand_input2);
         expDate_input = findViewById(R.id.expDate_input2);
+        warning_text_view = findViewById(R.id.warning_text_view);
         calendar_button2 = findViewById(R.id.calendar_button2);
         update_button = findViewById(R.id.update_button);
 
@@ -69,7 +73,7 @@ public class UpdateActivity extends AppCompatActivity {
                 MyDatabaseHelper myDB = new MyDatabaseHelper(UpdateActivity.this);
                 title = title_input.getText().toString().trim();
                 brand = brand_input.getText().toString().trim();
-                myDB.updateData(id, title, brand, expDate);
+                myDB.updateData(id, title, brand, expDate, imageUrl);
 
                 // Redirect to MainActivity after updating
                 Intent intent = new Intent(UpdateActivity.this, MainActivity.class);
@@ -82,7 +86,7 @@ public class UpdateActivity extends AppCompatActivity {
 
     void getAndSetIntentData() {
         if (getIntent().hasExtra("id") && getIntent().hasExtra("title") &&
-                getIntent().hasExtra("brand") && getIntent().hasExtra("expDate")) {
+                getIntent().hasExtra("brand") && getIntent().hasExtra("expDate") && getIntent().hasExtra("image_url")) {
             // Getting Data from Intent
             id = getIntent().getStringExtra("id");
             title = getIntent().getStringExtra("title");
@@ -102,6 +106,15 @@ public class UpdateActivity extends AppCompatActivity {
             title_input.setText(title);
             brand_input.setText(brand);
             Log.d("UpdateActivity", title + " " + brand + " " + expDate);
+
+            // Show warning message if it exists
+            if (getIntent().hasExtra("warning")) {
+                String warning = getIntent().getStringExtra("warning");
+                warning_text_view.setText(warning);
+                warning_text_view.setVisibility(View.VISIBLE);
+            } else {
+                warning_text_view.setVisibility(View.GONE);
+            }
         } else {
             Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
         }

@@ -13,7 +13,7 @@
         android:id="@+id/title_input2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="Product Name"
         android:inputType="textPersonName"
@@ -21,7 +21,7 @@
         android:textColor="#000"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/product_image_view" />
 
     <EditText
         android:id="@+id/brand_input2"
@@ -69,6 +69,18 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/warning_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please change the expiration date."
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/expiration_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center"/>
+
     <Button
         android:id="@+id/update_button"
         android:layout_width="match_parent"
@@ -79,6 +91,6 @@
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/expiration_layout" />
+        app:layout_constraintTop_toBottomOf="@id/warning_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

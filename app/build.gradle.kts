@@ -3,10 +3,7 @@ plugins {
 //    alias(libs.plugins.google.gms.google.services)
 
     id("com.android.application")
-
-    // Add the Google services Gradle plugin
     id("com.google.gms.google-services")
-    // ...
 
 
 
@@ -63,15 +60,16 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.14.2")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
     implementation("com.github.clans:fab:1.6.4")
-    // Import the BoM for the Firebase platform
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
 
-    // Add the dependency for the Realtime Database library
-    // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-database")
 
     implementation(libs.glide)
     annotationProcessor(libs.glide.compiler)
+    implementation("androidx.work:work-runtime:2.7.1")
+    implementation("com.google.guava:guava:31.1-android")
+
+
 
 }
 
@@ -81,11 +79,6 @@ dependencies {
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
 
-    // When using the BoM, you don't specify versions in Firebase library dependencies
-
-    // TODO: Add the dependencies for Firebase products you want to use
-    // See https://firebase.google.com/docs/android/setup#available-libraries
-    // For example, add the dependencies for Firebase Authentication and Cloud Firestore
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
 }

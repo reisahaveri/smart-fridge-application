@@ -16,6 +16,9 @@ import java.net.URL;
 public class FetchData extends AsyncTask<String, Void, String> {
     private Context context;
     private static final String TAG = "FetchData";
+    private String productName;
+    private String productBrand;
+    private String productQuantity;
     private String imageUrl = "";
 
     public FetchData(Context context) {
@@ -42,11 +45,11 @@ public class FetchData extends AsyncTask<String, Void, String> {
             JSONObject jsonObject = new JSONObject(result.toString());
             if (jsonObject.has("product")) {
                 JSONObject product = jsonObject.getJSONObject("product");
-                String name = product.optString("product_name", "N/A");
-                String quantity = product.optString("quantity", "N/A");
-                String brand = product.optString("brands", "N/A");
+                productName = product.optString("product_name", "N/A");
+                productQuantity = product.optString("quantity", "N/A");
+                productBrand = product.optString("brands", "N/A");
                 imageUrl = product.optString("image_url", ""); // Adjust the key as per the JSON response
-                return "Name: " + name + "\nBrand: " + brand + "\nQuantity: " + quantity;
+                return "Name: " + productName + "\nBrand: " + productBrand + "\nQuantity: " + productQuantity;
             } else {
                 return "No product data found for the given barcode.";
             }
@@ -60,6 +63,9 @@ public class FetchData extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String result) {
         Intent intent = new Intent(context, ProductDetailsActivity.class);
         intent.putExtra("product_details", result);
+        intent.putExtra("product_name", productName);
+        intent.putExtra("product_brand", productBrand);
+        intent.putExtra("product_quantity", productQuantity);
         intent.putExtra("image_url", imageUrl); // Pass the image URL to the next activity
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);

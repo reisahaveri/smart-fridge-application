@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "smart-fridge-application"
+rootProject.name = "FreshAlert"
 include(":app")
  

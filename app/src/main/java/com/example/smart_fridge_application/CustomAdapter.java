@@ -1,16 +1,18 @@
 package com.example.smart_fridge_application;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -44,7 +46,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.product_title_txt.setText(product_title.get(position));
         holder.product_brand_txt.setText(product_brand.get(position));
-        holder.product_expDate_txt.setText(sdf.format(Long.parseLong(expDate.get(position))));
+        holder.product_expDate_txt.setText(expDate.get(position));
 
         holder.update_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,23 +63,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         holder.delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                confirmDeleteDialog(position);
-            }
-        });
-    }
-
-    @Override
-    public int getItemCount() {
-        return product_id.size();
-    }
-
-    private void confirmDeleteDialog(int position) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Delete " + product_title.get(position));
-        builder.setMessage("Are you sure you want to delete " + product_title.get(position) + " ?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
+                // Handle delete functionality
+                MyDatabaseHelper myDB = new MyDatabaseHelper(context);
                 myDB.deleteOneRow(product_id.get(position));
                 product_id.remove(position);
                 product_title.remove(position);
@@ -87,13 +74,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
                 notifyItemRangeChanged(position, product_id.size());
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Do nothing
-            }
-        });
-        builder.create().show();
+    }
+
+    @Override
+    public int getItemCount() {
+        return product_id.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
