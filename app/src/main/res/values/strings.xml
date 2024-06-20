@@ -1,76 +1,99 @@
 <resources>
-    <string name="app_name">smart-fridge-application</string>
+    <string name="app_name">FreshAlert</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="add_product_button">Add Product</string>
+    <string name="no_data_image">No Data Image</string>
+    <string name="no_data_available">No Data Available</string>
 
-
-    //pasta
+    <!-- Pasta -->
     <string name="pastaIngredients">Pasta
 \nCream Cheese
 \nParmesan Cheese
 \nOlive Oil
 \nGarlic
-\nSalt Pepper</string>
+\nSalt
+\nPepper</string>
     <string name="pastaDesc">Cook your pasta until al dente
-\nSaute’ garlic in olive oil until fragrant
+\nSaute garlic in olive oil until fragrant
 \nAdd cream cheese, pasta cooking water, parmesan, and stir well
 \nDrain and add pasta to the skillet
 \nToss until well combined, adding some pasta water if needed</string>
-    //maggi
+
+    <!-- Maggi -->
     <string name="maggiIngredients">Maggi Noodles
 \nWater
 \nMaggi Masala</string>
-    <string name="maggieDesc">Add one and half cup of water
-\nAdd maggi noodles and boil it
-\nAdd the maggi masala on to it
-\nWait for 2 mins
-\nMaggi is ready!</string>
-    //cake
-    <string name="cakeIngredients">Maggi Noodles
-\nWater
-\nMaggi Masala</string>
-    <string name="cakeDesc">Add one and half cup of water
-Add maggi noodles and boil it
-Add the maggi masala on to it
-\nWait for 2 mins
-\nMaggi is ready!</string>
-    //pancake
-    <string name="pancakeIngredients">Maggi Noodles
-\nWater
-\nMaggi Masala</string>
-    <string name="pancakeDesc">Add one and half cup of water
-Add maggi noodles and boil it
-Add the maggi masala on to it
-\nWait for 2 mins
-\nMaggi is ready!</string>
-    //pizza
-    <string name="pizzaIngredients">Maggi Noodles
-\nWater
-\nMaggi Masala</string>
-    <string name="pizzaDesc">Add one and half cup of water
-Add maggi noodles and boil it
-Add the maggi masala on to it
-\nWait for 2 mins
-\nMaggi is ready!</string>
-    //burgers
-    <string name="burgerIngredients">Maggi Noodles
-\nWater
-\nMaggi Masala</string>
-    <string name="burgerDesc">Add one and half cup of water
-\nAdd maggi noodles and boil it
-\nAdd the maggi masala on to it
-\nWait for 2 mins
-\nMaggi is ready!</string>
-    //fries
-    <string name="friesIngredients">Maggi Noodles
-\nWater
-\nMaggi Masala</string>
-    <string name="friesDesc">Add one and half cup of water
+    <string name="maggiDesc">Add one and a half cups of water
 \nAdd maggi noodles and boil it
 \nAdd the maggi masala on to it
 \nWait for 2 mins
 \nMaggi is ready!</string>
 
+    <!-- Cake -->
+    <string name="cakeIngredients">Flour
+\nSugar
+\nEggs
+\nButter
+\nBaking Powder
+\nMilk</string>
+    <string name="cakeDesc">Preheat the oven to 350°F (175°C)
+\nMix flour, sugar, and baking powder in a bowl
+\nAdd eggs, butter, and milk
+\nMix until smooth
+\nPour into a greased baking pan
+\nBake for 30-35 minutes or until a toothpick comes out clean</string>
 
+    <!-- Pancake -->
+    <string name="pancakeIngredients">Flour
+\nMilk
+\nEggs
+\nSugar
+\nBaking Powder
+\nSalt</string>
+    <string name="pancakeDesc">Mix flour, sugar, baking powder, and salt in a bowl
+\nAdd milk and eggs
+\nMix until smooth
+\nHeat a lightly oiled griddle or frying pan over medium-high heat
+\nPour or scoop the batter onto the griddle
+\nBrown on both sides and serve hot</string>
+
+    <!-- Pizza -->
+    <string name="pizzaIngredients">Pizza Dough
+\nTomato Sauce
+\nMozzarella Cheese
+\nOlive Oil
+\nBasil</string>
+    <string name="pizzaDesc">Preheat the oven to 475°F (245°C)
+\nRoll out the pizza dough on a floured surface
+\nSpread tomato sauce over the dough
+\nSprinkle with mozzarella cheese
+\nAdd basil and drizzle with olive oil
+\nBake for 10-15 minutes or until the crust is golden and the cheese is bubbly</string>
+
+    <!-- Burgers -->
+    <string name="burgerIngredients">Ground Beef
+\nSalt
+\nPepper
+\nBurger Buns
+\nLettuce
+\nTomato
+\nOnion
+\nCheese</string>
+    <string name="burgerDesc">Preheat the grill to medium-high heat
+\nSeason the ground beef with salt and pepper
+\nForm into patties
+\nGrill patties for 4-5 minutes per side or until desired doneness
+\nAssemble burgers with buns, lettuce, tomato, onion, and cheese</string>
+
+    <!-- Fries -->
+    <string name="friesIngredients">Potatoes
+\nSalt
+\nVegetable Oil</string>
+    <string name="friesDesc">Cut potatoes into strips
+\nSoak in water for 30 minutes
+\nHeat oil in a deep fryer to 375°F (190°C)
+\nFry potatoes until golden brown
+\nDrain and season with salt</string>
 </resources>
